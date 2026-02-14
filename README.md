@@ -1,6 +1,6 @@
 # ConvNeXt + Transformer Hybrid for Age Estimation
 
-This repository accompanies the paper **“Integrating ConvNeXt and vision transformers for enhancing facial age estimation”** and provides a **reproducible** implementation of the models described therein.  It is intended for research and educational use only.  The code enables you to train and evaluate three architectures for age estimation:
+This repository accompanies the paper **“[Integrating ConvNeXt and vision transformers for enhancing facial age estimation](https://www.sciencedirect.com/science/article/pii/S1077314225002656?via%3Dihub)”** and provides a **reproducible** implementation of the models described therein.  It is intended for research and educational use only.  The code enables you to train and evaluate three architectures for age estimation:
 
 - **ConvNeXt**
 - **Vision Transformer (ViT)**
