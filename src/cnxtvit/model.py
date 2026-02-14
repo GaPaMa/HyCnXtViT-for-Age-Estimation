@@ -9,7 +9,6 @@ from einops import repeat
 from torch.optim.lr_scheduler import LambdaLR
 from .convnext import ConvNeXt
 from .vit import Transformer, ViT
-# from tps import TPS_SpatialTransformerNetwork
 
 
 class MODEL(pl.LightningModule):
@@ -28,10 +27,6 @@ class MODEL(pl.LightningModule):
         else:
             self.model = ConvNeXT_Transformer(cfg)
 
-        # if cfg.Model.TPS:
-        #     self.model = nn.Sequential(TPS_SpatialTransformerNetwork(cfg.Model.num_fiducial, (224, 224), (224, 224), 3), self.model)
-        # else:
-        #     self.model = self.model 
 
         self.regression = True
 
@@ -162,49 +157,6 @@ class MODEL(pl.LightningModule):
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
 
-        # if self.scheduler == "ReduceLROnPlateau":
-        #     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=self.lr_patience, min_lr=self.lr_min)
-        #     return {"optimizer": optimizer, "lr_scheduler": {"scheduler": scheduler, "monitor": self.scheduler_monitor, "interval": self.scheduler_interval}}
-        # elif self.scheduler == "WarmupCosineSchedule":
-        #     scheduler = WarmupCosineSchedule(optimizer, self.scheduler_warmup_steps, self.scheduler_total_steps, cycles=0.5, last_epoch=-1)
-        #     return {"optimizer": optimizer, "lr_scheduler": {"scheduler": scheduler, "monitor": self.scheduler_monitor, "interval": self.scheduler_interval}}
-    
-        # warmup_scheduler = WarmupCosineSchedule(optimizer, self.scheduler_warmup_steps, self.scheduler_total_steps, cycles=0.5, last_epoch=-1)
-
-        # # Define the second scheduler, e.g., ReduceLROnPlateau or OneCycleLR
-        # plateau_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=self.lr_patience, min_lr=self.lr_min, verbose=True)
-
-        # # Define a Lambda function for conditionally switching from WarmupCosineSchedule to ReduceLROnPlateau
-        # def lr_lambda(epoch):
-        #     if epoch < self.scheduler_warmup_steps:
-        #         return warmup_scheduler.get_last_lr()[0]  # Return the first element if it's a list
-        #     else:
-        #         return plateau_scheduler.optimizer.param_groups[0]['lr']  # Return the current learning rate
-
-        # # Combine both schedulers into a LambdaLR scheduler
-        # combined_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lr_lambda)
-
-        # return {"optimizer": optimizer, "lr_scheduler": {"scheduler": combined_scheduler, "monitor": self.scheduler_monitor, "interval": self.scheduler_interval}}
-        
-        ####### config5 #################
-        # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-        #     optimizer, 
-        #     mode='min', 
-        #     factor=self.scheduler_factor, 
-        #     patience=self.lr_patience, 
-        #     min_lr=self.lr_min, 
-        #     verbose=True
-        # )
-        
-        # return {
-        #     'optimizer': optimizer, 
-        #     'lr_scheduler': {
-        #         'scheduler': scheduler, 
-        #         'monitor': self.scheduler_monitor, 
-        #         'interval': 'epoch', 
-        #         'frequency': 1
-        #     }
-        # }
         interval = 'epoch'
         if self.scheduler == "OneCycleLR":
             scheduler = torch.optim.lr_scheduler.OneCycleLR(
@@ -215,32 +167,6 @@ class MODEL(pl.LightningModule):
                 anneal_strategy='cos',
                 cycle_momentum=False
             )
-        # elif self.scheduler == "CosineAnnealingLR":
-        #     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-        #         optimizer,
-        #         T_max=self.scheduler_total_steps,
-        #         eta_min=self.lr_min
-        #     )
-        # elif self.scheduler == "StepLR":
-        #     scheduler = torch.optim.lr_scheduler.StepLR(
-        #         optimizer,
-        #         step_size=self.scheduler_warmup_steps,
-        #         gamma=self.scheduler_factor
-        #     )
-        # elif self.scheduler == "ExponentialLR":
-        #     scheduler = torch.optim.lr_scheduler.ExponentialLR(
-        #         optimizer,
-        #         gamma=self.scheduler_factor
-        #     )
-        # elif self.scheduler == "CyclicLR":
-        #     scheduler = torch.optim.lr_scheduler.CyclicLR(
-        #         optimizer,
-        #         base_lr=self.lr_min,
-        #         max_lr=self.lr,
-        #         step_size_up=self.scheduler_warmup_steps,
-        #         mode='triangular2',
-        #         cycle_momentum=False
-        #     )
         elif self.scheduler == "WarmupCosineSchedule":
             interval = 'step'
             scheduler = WarmupCosineSchedule(
@@ -268,25 +194,6 @@ class MODEL(pl.LightningModule):
                 'frequency': 1
             }
         }
-    
-# class ConvNeXT_Model(nn.Module):
-#     def __init__(self, CFG):
-#         super().__init__()
-#         self.convnext = timm.create_model(CFG.ConvNeXT.backbone, pretrained=CFG.ConvNeXT.pretrained)
-#         self.output_size = self.convnext.head.in_features
-
-#         if CFG.ConvNeXT.fc:
-#             self.fc = nn.Sequential(
-#                 nn.Linear(self.output_size, CFG.ConvNeXT.fc),
-#                 nn.Linear(CFG.ConvNeXT.fc, CFG.ConvNeXT.num_classes)
-#             )
-#         else:
-#             self.fc = nn.Linear(self.output_size, CFG.ConvNeXT.num_classes)
-
-#     def forward(self, x):
-#         x = self.convnext.forward_features(x)
-#         x = self.convnext.norm(x.mean([-2, -1]))
-#         return self.fc(x)
     
 class ConvNeXT_Model(nn.Module):
     def __init__(self, CFG):
@@ -443,12 +350,8 @@ class ConvNeXT_Transformer(nn.Module):
         self.Transformer.vit.patch_embed = nn.Identity()
 
     def forward(self, x):
-        # print('1',x.shape)
         x = self.forward_convnext(x)
-        # print('2',x.shape)
-        # exit()
         x = self.forward_transformer(x)
-        # print('3',x.shape)
 
         return x
 
@@ -456,7 +359,6 @@ class ConvNeXT_Transformer(nn.Module):
         for i in range(4):
             x = self.ConvNeXt.downsample_layers[i](x)
             x = self.ConvNeXt.stages[i](x)
-        # print(x.shape)
         x = torch.reshape(x, (x.shape[0], 192, 196)).permute(0, 2, 1)
         return x
 
@@ -486,78 +388,4 @@ class WarmupCosineSchedule(LambdaLR):
         # progress after warmup
         progress = float(step - self.warmup_steps) / float(max(1, self.t_total - self.warmup_steps))
         return max(0.0, 0.5 * (1.0 + math.cos(math.pi * float(self.cycles) * 2.0 * progress)))
-
-"""
-from yacs.config import CfgNode as CN
-CFG = CN()
-
-CFG.ConvNeXT = CN()
-CFG.ConvNeXT.pretrained = "weights/convnext_tiny_22k_224.pth"
-CFG.ConvNeXT.in_chans=3
-CFG.ConvNeXT.num_classes=21841
-CFG.ConvNeXT.depths=[3, 3, 9, 3]
-CFG.ConvNeXT.dims=[96, 192, 384, 768]
-CFG.ConvNeXT.drop_path_rate=0. 
-CFG.ConvNeXT.layer_scale_init_value=1e-6
-CFG.ConvNeXT.head_init_scale=1.
-CFG.ConvNeXT.fc=192
-
-model = ConvNeXT_Model(CFG)
-x = torch.Tensor(2, 3, 224, 224)
-y = model(x)
-print(y.shape)
-"""
-
-'''if __name__ == '__main__':
-
-    from yacs.config import CfgNode as CN
-
-    ### MODEL ###
-    CFG = CN()
-    CFG.Trainer = CN()
-    CFG.Trainer.loss_func = 'Adaptive' # 'MAE', 'MSE', 'Adaptive', 'Huber' --> Adaptive, KLDivLoss (no use yet)
-    CFG.Trainer.sigma = 2 # used for Adaptive loss
-    CFG.Trainer.lr = 1e-4
-    CFG.Trainer.lr_patience = 5
-    CFG.Trainer.lr_min = 1e-8
-    CFG.Trainer.scheduler = "WarmupCosineSchedule" # ReduceLROnPlateau, WarmupCosineSchedule
-    CFG.Trainer.scheduler_interval = "step"
-    CFG.Trainer.scheduler_monitor = "Loss/Val"
-    CFG.Trainer.scheduler_factor = 0.001 # 0 < factor < 1 (if its > 1 it means the)
-    CFG.Trainer.scheduler_warmup_steps = 0
-    CFG.Trainer.scheduler_total_steps = 0
-
-
-
-    CFG.Model = CN()
-    CFG.Model.name = "ConvNeXT_Transformer"
-    CFG.Model.TPS = False
-    CFG.Model.num_fiducial = 20
-
-    CFG.ConvNeXT = CN()
-    CFG.ConvNeXT.pretrained = False
-    CFG.ConvNeXT.weights = "/home/gmaroun/Projects/ConvNeXT_Vision_Transformer/checkpoints_ConvNeXT/MORPH2_ConvNeXT_FC2_256_epoch_499_mae_2.290440150948744_2ndRound.ckpt"
-    CFG.ConvNeXT.in_chans=3
-    CFG.ConvNeXT.num_classes = 1
-    CFG.ConvNeXT.depths=[3, 3, 9, 3]
-    CFG.ConvNeXT.dims=[96, 192, 384, 768]
-    CFG.ConvNeXT.drop_path_rate=0. 
-    CFG.ConvNeXT.layer_scale_init_value=1e-6
-    CFG.ConvNeXT.head_init_scale=1.
-    CFG.ConvNeXT.fc = 256 # None, 32, 64, 128, 192, 256
-
-    CFG.Transformer = CN()
-    # CFG.Transformer.pretrained = False
-    CFG.Transformer.weights = "/home/gmaroun/Projects/ConvNeXT_Vision_Transformer/checkpoints_Transformer_ImgNet_Cosine_19_8_23/MORPH2_Transformer_FC2_128_batch256_ImgNet_Cosine0.001_epoch_499_mae_2.4702752187618136.ckpt"
-    CFG.Transformer.backbone = "vit_tiny_patch16_224"
-    CFG.Transformer.transfer_learning = True
-    CFG.Transformer.pretrained = False
-    CFG.Transformer.num_class = 1 
-    CFG.Transformer.fc = 128 # None, 32, 64, 128, 192, 256 
-
-    model = ConvNeXT_Transformer(CFG)
-    # model = Transformer(CFG)
-    x = torch.Tensor(1, 3, 224, 224)
-    y = model(x)
-    print(y.shape)  '''
 
