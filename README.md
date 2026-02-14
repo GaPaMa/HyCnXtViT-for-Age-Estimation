@@ -6,8 +6,9 @@ This repository accompanies the paper **“[Integrating ConvNeXt and vision tran
 - **Vision Transformer (ViT)**
 - **Hybrid ConvNeXt + ViT** (our proposed model)
 
-By default the scripts are configured for the MORPH II dataset, but you can run them on other datasets (e.g. CACD, AFAD) by pointing to your own data.
 <img width="1743" height="1003" alt="download" src="https://github.com/user-attachments/assets/d7c46e45-6b1f-4d91-83e8-51e2752f3509" />
+
+By default the scripts are configured for the MORPH II dataset, but you can run them on other datasets (e.g. CACD, AFAD) by pointing to your own data.
 
 > **Important licensing notice**
 > 
