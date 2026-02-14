@@ -4,6 +4,9 @@ This repository is a **research / educational** release of the code structure us
 
 **"[Integrating ConvNeXt and Transformers for Age Estimation](https://www.sciencedirect.com/science/article/pii/S1077314225002656?via%3Dihub)"**
 
+<img width="1743" height="1003" alt="download" src="https://github.com/user-attachments/assets/d7c46e45-6b1f-4d91-83e8-51e2752f3509" />
+
+
 It provides:
 - ConvNeXt backbone
 - ViT backbone (via `timm`)
