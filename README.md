@@ -2,7 +2,7 @@
 
 This repository is a **research / educational** release of the code structure used in the paper:
 
-**"Integrating ConvNeXt and Transformers for Age Estimation"**
+**"[Integrating ConvNeXt and Transformers for Age Estimation](https://www.sciencedirect.com/science/article/pii/S1077314225002656?via%3Dihub)"**
 
 It provides:
 - ConvNeXt backbone
