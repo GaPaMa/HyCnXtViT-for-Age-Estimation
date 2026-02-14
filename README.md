@@ -95,7 +95,7 @@ If you use this code or the pretrained weights in your research, please cite our
 If you use this code, models, or weights in your work, please cite:
 
 ```bibtex
-@article{Maroun2025ConvNeXtViT,
+@article{Maroun2025HyCnXtViT,
   title   = {Integrating ConvNeXt and vision transformers for enhancing facial age estimation},
   author  = {Maroun, G. and Bekhouche, S.E. and Charafeddine, J. and Dornaika, F.},
   journal = {Computer Vision and Image Understanding},
