@@ -7,6 +7,7 @@ This repository accompanies the paper **“Integrating ConvNeXt and vision trans
 - **Hybrid ConvNeXt + ViT** (our proposed model)
 
 By default the scripts are configured for the MORPH II dataset, but you can run them on other datasets (e.g. CACD, AFAD) by pointing to your own data.
+<img width="1743" height="1003" alt="download" src="https://github.com/user-attachments/assets/d7c46e45-6b1f-4d91-83e8-51e2752f3509" />
 
 > **Important licensing notice**
 > 
@@ -155,7 +156,7 @@ and then reference them via the `--ckpt` flag in `eval.py` or set `Model.pretrai
 If you use this code, models, or weights in your work, please cite the following paper:
 
 ```bibtex
-@article{Maroun2025ConvNeXtViT,
+@article{Maroun2025HyCnXtViT,
   title   = {Integrating ConvNeXt and vision transformers for enhancing facial age estimation},
   author  = {Maroun, G. and Bekhouche, S.E. and Charafeddine, J. and Dornaika, F.},
   journal = {Computer Vision and Image Understanding},
