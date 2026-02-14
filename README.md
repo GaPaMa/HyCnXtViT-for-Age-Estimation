@@ -85,7 +85,27 @@ python scripts/eval.py \
 
 ## Citation
 
-If you use this repo, cite the paper and link to this repository.
+If you use this repo, cite the paper and link to this repository
+## Citation
+
+If you use this code or the pretrained weights in your research, please cite our paper:
+
+## Citation
+
+If you use this code, models, or weights in your work, please cite:
+
+```bibtex
+@article{Maroun2025ConvNeXtViT,
+  title   = {Integrating ConvNeXt and vision transformers for enhancing facial age estimation},
+  author  = {Maroun, G. and Bekhouche, S.E. and Charafeddine, J. and Dornaika, F.},
+  journal = {Computer Vision and Image Understanding},
+  volume  = {262},
+  pages   = {104542},
+  year    = {2025},
+  month   = dec,
+  doi     = {10.1016/j.cviu.2025.104542}
+}
+```
 
 ## License
 
