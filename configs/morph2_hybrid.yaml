@@ -1,0 +1,43 @@
+Trainer:
+  num_epochs: 100
+  batch_size: 64
+  num_workers: 4
+  accelerator: gpu
+  devices: [0]
+  loss_func: Adaptive
+  sigma: 2
+  lr: 5e-5
+  lr_patience: 3
+  lr_min: 1e-6
+  scheduler: WarmupCosineSchedule
+  scheduler_interval: step
+  scheduler_monitor: Loss/Val
+  scheduler_factor: 0.1
+  scheduler_warmup_steps: 0
+  scheduler_total_steps: 0
+  checkpoint_file: false
+
+Model:
+  name: ConvNeXT_Transformer
+  TPS: false
+  num_fiducial: 20
+
+ConvNeXT:
+  pretrained: false
+  weights: null
+  in_chans: 3
+  num_classes: 1
+  depths: [3, 3, 9, 3]
+  dims: [96, 192, 384, 768]
+  drop_path_rate: 0.0
+  layer_scale_init_value: 1e-6
+  head_init_scale: 1.0
+  fc: 256
+
+Transformer:
+  backbone: vit_tiny_patch16_224
+  transfer_learning: true
+  pretrained: true
+  weights: null
+  num_class: 1
+  fc: 128

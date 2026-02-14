@@ -1,0 +1,14 @@
+# Minimal tested stack for the released code
+torch
+torchvision
+pytorch-lightning
+torchmetrics
+timm
+einops
+opencv-python
+pandas
+numpy
+Pillow
+yacs
+pyyaml
+tqdm
