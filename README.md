@@ -11,12 +11,6 @@ It provides:
 - PyTorch Lightning training loop
 - Dataset loader based on a simple `{dataset}.pkl` index file
 
-## Important notes (read this once)
-
-- **No datasets are redistributed here.** Some face-age datasets are research-only.
-- **Do not upload / publish the dataset itself or derived subject identifiers.**
-- Sharing **model weights** is usually fine, but you should check your dataset license and co-author constraints.
-
 ## Repository layout
 
 - `src/cnxtvit/` : main library (models + dataset)
@@ -84,9 +78,7 @@ python scripts/eval.py \
 
 ## Sharing weights
 
-Recommended:
-- Put weights in **GitHub Releases** or **Hugging Face Hub**.
-- Provide checksum (SHA256) and exact config used.
+--
 
 ## Citation
 
