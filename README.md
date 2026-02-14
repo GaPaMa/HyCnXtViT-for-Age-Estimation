@@ -126,7 +126,7 @@ The script will print the mean absolute error (MAE) on the specified split.
 
 We provide pretrained checkpoints corresponding to the results reported in the paper.  These files are large and **are not tracked by git**.  To use them:
 
-1. Download the desired `.ckpt` file from the project’s release page (or from the authors).
+1. Download the desired `.ckpt` file from the project’s release page.
 2. Place the file into the `weights/` folder at the repository root.  Do not commit it.
 3. Use the checkpoint when evaluating or fine‑tuning by specifying the path in the appropriate argument or config entry.
 
