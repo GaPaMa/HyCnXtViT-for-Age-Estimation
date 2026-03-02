@@ -5,11 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "cnxtvit-age-estimation"
 version = "0.1.0"
-description = "ConvNeXt + Transformer hybrid for age estimation (research/educational release)"
+description = "ConvNeXt (CNN) + Transformer (ViT) hybrid for facial age estimation (research/educational release (CVIU 2025))"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
-authors = [{name = "Rony"}]
+authors = [{name = "Gaby Maroun"}]
 
 dependencies = [
   "torch>=2.0",
