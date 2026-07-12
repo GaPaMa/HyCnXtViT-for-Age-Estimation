@@ -1,6 +1,13 @@
 # ConvNeXt + Transformer Hybrid for Age Estimation
 
-This repository accompanies the paper **“[Integrating ConvNeXt and vision transformers for enhancing facial age estimation](https://www.sciencedirect.com/science/article/pii/S1077314225002656?via%3Dihub)”** and provides a **reproducible** implementation of the models described therein.  It is intended for research and educational use only.  The code enables you to train and evaluate three architectures for age estimation:
+This repository provides a **reproducible** implementation of the ConvNeXt–Vision Transformer hybrid framework presented across two related publications:
+
+- **Original article (Elsevier / Computer Vision and Image Understanding, 2025):** **“[Integrating ConvNeXt and vision transformers for enhancing facial age estimation](https://www.sciencedirect.com/science/article/pii/S1077314225002656?via%3Dihub)”**
+- **Extended open-access article (MDPI / Applied Sciences, 2026):** **“[ConvNeXt Meets Vision Transformers: A Powerful Hybrid Framework for Facial Age Estimation](https://www.mdpi.com/2076-3417/16/7/3281)”**
+
+The MDPI version extends the experimental analysis with the UTKFace benchmark, cumulative-score reporting (CS@5), computational-efficiency measurements, and additional ablation and interpretability analyses.
+
+It is intended for research and educational use only. The code enables you to train and evaluate three architectures for age estimation:
 
 - **ConvNeXt**
 - **Vision Transformer (ViT)**
@@ -8,7 +15,43 @@ This repository accompanies the paper **“[Integrating ConvNeXt and vision tran
 
 <img width="1743" height="1003" alt="download" src="https://github.com/user-attachments/assets/d7c46e45-6b1f-4d91-83e8-51e2752f3509" />
 
-By default the scripts are configured for the MORPH II dataset, but you can run them on other datasets (e.g. CACD, AFAD) by pointing to your own data.
+## Reported results
+
+The table below summarizes the architecture-level mean absolute error (MAE, in years) reported in the extended MDPI article. The MORPH II, CACD, and AFAD hybrid results are also reported in the original CVIU article; UTKFace is added in the MDPI extension. **Lower is better.**
+
+| Dataset | ConvNeXt | Vision Transformer (ViT) | Hybrid ConvNeXt–Transformer |
+|---|---:|---:|---:|
+| MORPH II | 2.29 | 2.47 | **2.26** |
+| CACD | 4.40 | 4.71 | **4.35** |
+| AFAD | 3.12 | 3.43 | **3.09** |
+| UTKFace | 4.65 | 4.96 | **4.47** |
+
+<details>
+<summary><strong>Additional MDPI results: CS@5 and computational efficiency</strong></summary>
+
+### Cumulative score within a five-year error margin (CS@5)
+
+**Higher is better.**
+
+| Dataset | ConvNeXt | Vision Transformer (ViT) | Hybrid ConvNeXt–Transformer |
+|---|---:|---:|---:|
+| MORPH II | **90.10%** | 86.33% | 78.65% |
+| CACD | 71.20% | 66.30% | **72.00%** |
+| UTKFace | 64.84% | 61.50% | **86.77%** |
+
+### Computational efficiency on MORPH II
+
+Inference time is the average reported per image.
+
+| Architecture | MAE | Parameters | Model size | Inference time |
+|---|---:|---:|---:|---:|
+| Vision Transformer (ViT) | 2.47 | 5.55 M | 21.17 MB | **1.20 ms** |
+| ConvNeXt | 2.29 | 28.02 M | 106.88 MB | 2.39 ms |
+| Hybrid ConvNeXt–Transformer | **2.26** | 33.42 M | 127.48 MB | 3.22 ms |
+
+</details>
+
+By default the scripts are configured for the MORPH II dataset, but you can run them on other datasets (e.g. CACD, AFAD, UTKFace) by pointing to your own data.
 
 > **Important licensing notice**
 > 
@@ -125,7 +168,7 @@ The script will print the mean absolute error (MAE) on the specified split.
 
 ## Pretrained weights
 
-We provide pretrained checkpoints corresponding to the results reported in the paper.  These files are large and **are not tracked by git**.  To use them:
+We provide pretrained checkpoints corresponding to the MORPH II results reported in the papers.  These files are large and **are not tracked by git**.  To use them:
 
 1. Download the desired `.ckpt` file from the project’s release page.
 2. Place the file into the `weights/` folder at the repository root.  Do not commit it.
@@ -154,7 +197,9 @@ and then reference them via the `--ckpt` flag in `eval.py` or set `Model.pretrai
 
 ## Citation
 
-If you use this code, models, or weights in your work, please cite the following paper:
+If you use this code, models, or weights in your work, please cite the publication relevant to your use (or both when using the extended evaluation).
+
+### Original CVIU article
 
 ```bibtex
 @article{Maroun2025HyCnXtViT,
@@ -166,6 +211,23 @@ If you use this code, models, or weights in your work, please cite the following
   year    = {2025},
   month   = dec,
   doi     = {10.1016/j.cviu.2025.104542}
+}
+```
+
+### Extended MDPI article
+
+```bibtex
+@article{Maroun2026ConvNeXtMeetsViT,
+  title   = {ConvNeXt Meets Vision Transformers: A Powerful Hybrid Framework for Facial Age Estimation},
+  author  = {Maroun, Gaby and Bekhouche, Salah Eddine and Dornaika, Fadi},
+  journal = {Applied Sciences},
+  volume  = {16},
+  number  = {7},
+  pages   = {3281},
+  year    = {2026},
+  month   = mar,
+  doi     = {10.3390/app16073281},
+  url     = {https://www.mdpi.com/2076-3417/16/7/3281}
 }
 ```
 
